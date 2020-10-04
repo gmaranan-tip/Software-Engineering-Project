@@ -8,31 +8,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using FontAwesome.Sharp;
 
 namespace InventorySystem.Forms
 {
     public partial class ProductForm : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
+        private IconButton currentBtn;
         public ProductForm()
         {
             InitializeComponent();
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private struct RGBColors
         {
-            NewProduct np = new NewProduct();
-            np.TopMost = true;
-            np.Show();
+            public static Color color1 = Color.FromArgb(69, 120, 170);
+        }
+        private void ActiveButton(object senderBtn, Color color)
+        {
+            if (senderBtn != null)
+            {
+                DisableButton();
 
-
+                currentBtn = (IconButton)senderBtn;
+                currentBtn.BackColor = Color.FromArgb(36, 37, 81);
+                currentBtn.ForeColor = color;
+                currentBtn.IconColor = color;
+                currentBtn.IconChar = IconChar.FolderOpen;
+            }
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void DisableButton()
         {
-            NewUnit nu = new NewUnit();
-            nu.TopMost = true;
-            nu.Show();
+            if (currentBtn != null)
+            {
+                currentBtn.BackColor = Color.FromArgb(20, 35, 70);
+                currentBtn.ForeColor = Color.Gainsboro;
+                currentBtn.IconColor = Color.Gainsboro;
+                currentBtn.IconChar = IconChar.FolderPlus;
+            }
         }
 
         public void fill_product_name()
@@ -74,13 +89,14 @@ namespace InventorySystem.Forms
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            metroGrid2.DataSource = dt;
         }
 
 
 
         private void iconButton1_Click(object sender, EventArgs e)
         {
+
             int i;
             SqlCommand cmd1 = con.CreateCommand();
             cmd1.CommandType = CommandType.Text;
@@ -104,7 +120,7 @@ namespace InventorySystem.Forms
                 cmd3.ExecuteNonQuery();
 
                 fill_dg();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 MessageBox.Show("Item '" + comboBox1.SelectedItem.ToString() + "' '" + comboBox2.SelectedItem.ToString() + "' Successfully Updated!");
             }
             else
@@ -120,7 +136,7 @@ namespace InventorySystem.Forms
                 cmd4.ExecuteNonQuery();
 
                 fill_dg();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 MessageBox.Show("Item '" + comboBox1.SelectedItem.ToString() + "' '" + comboBox2.SelectedItem.ToString() + "' Successfully Updated!");
             }
         }
@@ -135,18 +151,56 @@ namespace InventorySystem.Forms
             fill_product_name();
             fill_product_units();
             fill_dg();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void iconButton2_Click(object sender, EventArgs e)
         {
             int id;
-            id = Convert.ToInt32(dataGridView1.SelectedCells[0].Value.ToString());
+            id = Convert.ToInt32(metroGrid2.SelectedCells[0].Value.ToString());
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "delete from stockTable where Id= " + id + "";
             cmd.ExecuteNonQuery();
             fill_dg();
+        }
+
+        private void iconButton3_Click(object sender, EventArgs e)
+        {
+            ActiveButton(sender, RGBColors.color1);
+
+            NewProduct np = new NewProduct();
+            np.TopMost = true;
+            np.Show();
+        }
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
+            DisableButton();
+        }
+
+        private void panel6_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
+            DisableButton();
+        }
+
+        private void panel2_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
+            DisableButton();
+        }
+
+        private void comboBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
+            DisableButton();
+        }
+
+        private void metroGrid2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            iconButton2.Visible = true;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace InventorySystem.Forms
 {
     public partial class StocksForm : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
         public StocksForm()
         {
             InitializeComponent();
@@ -27,20 +27,22 @@ namespace InventorySystem.Forms
             }
             con.Open();
             fill_dg();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
+            metroGrid1.Columns[0].HeaderText = "PRODUCT";
+            metroGrid1.Columns[1].HeaderText = "QUANTITY";
+            metroGrid1.Columns[2].HeaderText = "UNIT";
+            metroGrid1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         public void fill_dg()
         {
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "select * from stockTable order by Product_Name";
+            cmd.CommandText = "select Product_Name, Product_Qty, Product_Unit from stockTable order by Product_Qty ";
             cmd.ExecuteNonQuery();
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            metroGrid1.DataSource = dt;
         }
     }
 }

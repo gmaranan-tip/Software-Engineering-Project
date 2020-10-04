@@ -14,12 +14,11 @@ namespace InventorySystem.Forms
 {
     public partial class NewProduct : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
         public NewProduct()
         {
             InitializeComponent();
         }
-
         private void iconButton4_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -45,12 +44,12 @@ namespace InventorySystem.Forms
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            metroGrid2.DataSource = dt;
         }
 
         private void iconButton1_Click_1(object sender, EventArgs e)
         {
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             int count = 0;
             SqlCommand cmd1 = con.CreateCommand();
             cmd1.CommandType = CommandType.Text;
@@ -67,9 +66,7 @@ namespace InventorySystem.Forms
 
                 cmd.CommandText = "insert into productTable values('" + textBox1.Text + "')";
                 cmd.ExecuteNonQuery();
-                disp_prod();
-
-         
+                disp_prod();         
             }
             else
             {
@@ -81,7 +78,7 @@ namespace InventorySystem.Forms
         private void iconButton2_Click(object sender, EventArgs e)
         {
             int id;
-            id = Convert.ToInt32(dataGridView1.SelectedCells[0].Value.ToString());
+            id = Convert.ToInt32(metroGrid2.SelectedCells[0].Value.ToString());
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "delete from productTable where Id= " + id + "";
@@ -95,9 +92,30 @@ namespace InventorySystem.Forms
             {
                 con.Close();
             }
-            con.Open();
-            disp_prod();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            con.Open();          
+            disp_prod();         
+            metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            metroGrid2.Columns[1].HeaderText = "PRODUCT NAME";
+        }
+
+        private void metroGrid2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            iconButton2.Visible = true;
+        }
+
+        private void metroGrid2_Click(object sender, EventArgs e)
+        {
+            iconButton2.Visible = false;
+        }
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
+        }
+
+        private void textBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            iconButton2.Visible = false;
         }
     }
 }

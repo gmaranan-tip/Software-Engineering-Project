@@ -16,5 +16,14 @@ namespace InventorySystem.Forms
         {
             InitializeComponent();
         }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        public void setButton1Visible(Boolean flag)
+        {
+            this.iconButton1.Visible = flag;
+        }
     }
 }

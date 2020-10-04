@@ -13,7 +13,7 @@ namespace InventorySystem.Forms
 {
     public partial class SellForm : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
         public SellForm()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace InventorySystem.Forms
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            metroGrid2.DataSource = dt;
         }
 
         public void disp_unit()
@@ -40,7 +40,7 @@ namespace InventorySystem.Forms
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
+            metroGrid2.DataSource = dt;
         }
 
         public void fill_product_name()
@@ -75,7 +75,7 @@ namespace InventorySystem.Forms
 
         private void iconButton1_Click(object sender, EventArgs e)
         {
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             int i;
             SqlCommand cmd1 = con.CreateCommand();
             cmd1.CommandType = CommandType.Text;
@@ -99,7 +99,7 @@ namespace InventorySystem.Forms
                 cmd3.ExecuteNonQuery();
 
                 fill_dg();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 MessageBox.Show("Item '" + comboBox1.SelectedItem.ToString() + "' '" + comboBox2.SelectedItem.ToString() + "' Successfully Updated!");
             }
             else
@@ -115,7 +115,7 @@ namespace InventorySystem.Forms
                 cmd4.ExecuteNonQuery();
 
                 fill_dg();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 MessageBox.Show("Item '" + comboBox1.SelectedItem.ToString() + "' '" + comboBox2.SelectedItem.ToString() + "' Successfully Updated!");
             }
         }
@@ -130,7 +130,7 @@ namespace InventorySystem.Forms
             fill_product_name();
             fill_product_units();
             fill_dg();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            metroGrid2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
     }
 }
