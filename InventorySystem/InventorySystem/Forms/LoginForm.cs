@@ -47,6 +47,8 @@ namespace InventorySystem.Forms
             WindowState = FormWindowState.Minimized;
         }
 
+
+
         private void metroButton1_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True");
